@@ -1,0 +1,55 @@
+name: compliance
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  repository-compliance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: false
+
+      - name: Required files
+        run: |
+          set -euo pipefail
+          test -f README.md
+          test -f README_cn.md
+          test -f LICENSE
+          test -f MAINTAINERS
+          test -f .github/PULL_REQUEST_TEMPLATE.md
+          test -f .github/ISSUE_TEMPLATE/bug_report.md
+          test -f .github/ISSUE_TEMPLATE/feature_request.md
+
+      - name: License text check
+        run: |
+          set -euo pipefail
+          grep -q "GNU GENERAL PUBLIC LICENSE" LICENSE
+          grep -q "Version 3, 29 June 2007" LICENSE
+
+      - name: Secret scan
+        run: |
+          set -euo pipefail
+          if git grep -nE '(BEGIN (RSA|OPENSSH|EC|DSA) PRIVATE KEY|ghp_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|WANDB_API_KEY=[^<]|HF_TOKEN=[^<]|HUGGINGFACE_HUB_TOKEN=|password[[:space:]]*=|passwd[[:space:]]*=|secret[[:space:]]*=|token[[:space:]]*=)' -- ':!LICENSE' ':!.github/workflows/compliance.yml'; then
+            exit 1
+          fi
+
+      - name: Internal keyword scan
+        run: |
+          set -euo pipefail
+          if git grep -nEi '(internal[ _-]?ip|auth[ _-]?token|rp-4090|g1-rp|/home/elijah|checkpoint\\.pt|\\.ckpt)' -- ':!.github/workflows/compliance.yml'; then
+            exit 1
+          fi
+
+      - name: Submodule branch check
+        run: |
+          set -euo pipefail
+          grep -q 'path = training/active-adaptation' .gitmodules
+          grep -q 'path = deploy/sim2real' .gitmodules
+          grep -q 'branch = dev/hdmi' .gitmodules
+          grep -q 'branch = main' .gitmodules
+          restricted_term="$(printf '\\162\\160\\061')"
+          ! git grep -nEi "$restricted_term" -- ':!.github/workflows/compliance.yml'
