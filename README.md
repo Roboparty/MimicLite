@@ -43,17 +43,23 @@ submodules owned by a child repository in that child repository.
 ## Clone
 
 ```bash
-git clone --recurse-submodules git@github.com:Roboparty/MimicLite.git MimicLite
+git clone git@github.com:Roboparty/MimicLite.git MimicLite
 cd MimicLite
-git submodule update --init --recursive
+git submodule update --init --recursive --remote
 ```
 
 For an existing checkout:
 
 ```bash
 git pull --recurse-submodules
-git submodule update --init --recursive
+git submodule sync --recursive
+git submodule update --init --recursive --remote
 ```
+
+The parent repository still records concrete submodule commits for
+reproducibility. The `--remote` flag tells Git to follow the branches declared in
+`.gitmodules`, such as `training/active-adaptation` on `dev/hdmi` and nested
+`projects/mimic-lite` on `main`.
 
 ## Public Release Boundary
 

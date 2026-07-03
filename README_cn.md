@@ -38,17 +38,22 @@ submodule 记录在该子仓库自己的 `.gitmodules` 中。
 ## 克隆方式
 
 ```bash
-git clone --recurse-submodules git@github.com:Roboparty/MimicLite.git MimicLite
+git clone git@github.com:Roboparty/MimicLite.git MimicLite
 cd MimicLite
-git submodule update --init --recursive
+git submodule update --init --recursive --remote
 ```
 
 已有 checkout 更新：
 
 ```bash
 git pull --recurse-submodules
-git submodule update --init --recursive
+git submodule sync --recursive
+git submodule update --init --recursive --remote
 ```
+
+父仓库仍会记录具体 submodule commit，便于复现。`--remote` 会让 Git 按
+`.gitmodules` 中声明的 branch 更新，例如 `training/active-adaptation` 使用
+`dev/hdmi`，嵌套的 `projects/mimic-lite` 使用 `main`。
 
 ## 公开边界
 
