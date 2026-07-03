@@ -47,9 +47,13 @@ jobs:
       - name: Submodule branch check
         run: |
           set -euo pipefail
-          grep -q 'path = training/active-adaptation' .gitmodules
-          grep -q 'path = deploy/sim2real' .gitmodules
+          grep -q 'path = active-adaptation' .gitmodules
+          grep -q 'path = mimic-lite' .gitmodules
+          grep -q 'path = sim2real' .gitmodules
+          grep -q 'url = git@github.com:Agent-3154/active-adaptation.git' .gitmodules
+          grep -q 'url = git@github.com:EGalahad/mimic-lite.git' .gitmodules
+          grep -q 'url = git@github.com:EGalahad/sim2real.git' .gitmodules
           grep -q 'branch = dev/hdmi' .gitmodules
-          grep -q 'branch = main' .gitmodules
+          test "$(grep -c 'branch = main' .gitmodules)" -eq 2
           restricted_term="$(printf '\\162\\160\\061')"
           ! git grep -nEi "$restricted_term" -- ':!.github/workflows/compliance.yml'
