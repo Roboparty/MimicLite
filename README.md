@@ -1,17 +1,11 @@
 [中文版](README_cn.md) | [English](README.md)
 
-# MimicLite Integration Repository
+# MimicLite
 
-This repository is the public-facing integration entry point for the MimicLite
-training and deployment stack. It does not vendor source files from the training
-or deployment projects. Instead, it pins each component through Git submodules so
-the public release boundary is explicit and auditable.
+MimicLite is the public Roboparty integration repository for motion-imitation training, evaluation, and sim-to-real deployment.
+It pins the training workspace, MimicLite project code, report template area, and deployment stack as Git submodules so each release can be checked out reproducibly.
 
-> Naming note: the current GitHub repository is `Roboparty/MimicLite`. Before a
-> final public release, it should be renamed to a lowercase underscore name such
-> as `roboparty_mimic_lite` to match the Roboparty repository naming policy.
-
-## Layout
+## Structure
 
 ```text
 MimicLite/
@@ -21,53 +15,73 @@ MimicLite/
   MAINTAINERS
   reports/
     template/
-  training/
-    active-adaptation/        # submodule
-      projects/mimic-lite/    # nested submodule from active-adaptation
-  deploy/
-    sim2real/                 # submodule
+  active-adaptation/      # submodule
+  mimic-lite/             # submodule
+  sim2real/               # submodule
 ```
 
 ## Submodules
 
-| Path | Repository | Branch | Purpose |
-| --- | --- | --- | --- |
-| `training/active-adaptation` | `git@github.com:Agent-3154/active-adaptation.git` | `dev/hdmi` | Training workspace entry point. |
-| `training/active-adaptation/projects/mimic-lite` | `git@github.com:EGalahad/mimic-lite.git` | `main` | MimicLite project. |
-| `deploy/sim2real` | `git@github.com:EGalahad/sim2real.git` | `main` | Deployment and sim2real integration code. |
+| Path | Repository | Branch | Commit | Purpose |
+| --- | --- | --- | --- | --- |
+| `active-adaptation` | [`Agent-3154/active-adaptation`](https://github.com/Agent-3154/active-adaptation) | `dev/hdmi` | `faea675` | Training workspace and launch scripts. |
+| `mimic-lite` | [`EGalahad/mimic-lite`](https://github.com/EGalahad/mimic-lite) | `main` | `089d0ad` | MimicLite task, asset, and learning code. |
+| `sim2real` | [`EGalahad/sim2real`](https://github.com/EGalahad/sim2real) | `main` | `d1833cf` | Deployment and sim-to-real integration code. |
 
-`training/active-adaptation/projects/mimic-lite` is declared by the nested
-`.gitmodules` file inside `training/active-adaptation`, because Git stores
-submodules owned by a child repository in that child repository.
+## Instructions
 
-## Clone
+Clone the integration repo and initialize the pinned submodules:
 
 ```bash
-git clone git@github.com:Roboparty/MimicLite.git MimicLite
+git clone --recurse-submodules git@github.com:Roboparty/MimicLite.git MimicLite
 cd MimicLite
-git submodule update --init --recursive --remote
+git submodule update --init --recursive
 ```
 
-For an existing checkout:
+To refresh submodules to the latest configured branch heads:
 
 ```bash
-git pull --recurse-submodules
 git submodule sync --recursive
 git submodule update --init --recursive --remote
 ```
 
-The parent repository still records concrete submodule commits for
-reproducibility. The `--remote` flag tells Git to follow the branches declared in
-`.gitmodules`, such as `training/active-adaptation` on `dev/hdmi` and nested
-`projects/mimic-lite` on `main`.
+Set up the training environments from the MimicLite project files:
 
-## Public Release Boundary
+```bash
+cd active-adaptation
+git submodule update --init projects/mimic-lite
+mkdir -p venv/mjlab venv/isaaclab
+cp projects/mimic-lite/pyproject-mjlab.toml venv/mjlab/pyproject.toml
+cp projects/mimic-lite/pyproject-isaaclab.toml venv/isaaclab/pyproject.toml
+uv --project venv/mjlab run aa-discover-projects
+```
 
-- The nested `mimic-lite` submodule tracks the reviewed `main` branch.
-- `reports/template/` is intentionally empty for now and reserved for the common
-  Roboparty technical report template.
-- Do not commit secrets, robot logs, private datasets, checkpoints, internal
-  endpoints, or private deployment topology.
+Run a PPO training job:
+
+```bash
+bash scripts/launch_ddp.sh 0,1,2,3 projects/mimic-lite/scripts/train.py venv/mjlab \
+  task=lafan_sonic_100style_real +exp=ppo/train algo/ppo/module=residual backend=mjlab
+```
+
+Run SAC:
+
+```bash
+bash scripts/launch_ddp.sh 0,1,2,3 projects/mimic-lite/scripts/train.py venv/mjlab \
+  task=lafan_sonic_100style_real +exp=sac/train backend=mjlab
+```
+
+If MuJoCo resolves a version where `mujoco.mjtEnableBit.mjENBL_MULTICCD` is missing, pin MuJoCo below 3.8 in the `mjlab` environment and resync:
+
+```bash
+uv --project venv/mjlab add 'mujoco<3.8'
+uv --project venv/mjlab sync
+```
+
+## Release Boundary
+
+- `reports/template/` is reserved for the common Roboparty technical report template.
+- Do not commit secrets, robot logs, non-public datasets, checkpoints, internal
+  endpoints, or internal deployment topology.
 - Demo credentials in documentation must be fake placeholders and must be marked
   as fake.
 

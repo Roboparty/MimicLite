@@ -1,8 +1,12 @@
-[submodule "training/active-adaptation"]
-	path = training/active-adaptation
+[submodule "active-adaptation"]
+	path = active-adaptation
 	url = git@github.com:Agent-3154/active-adaptation.git
 	branch = dev/hdmi
-[submodule "deploy/sim2real"]
-	path = deploy/sim2real
+[submodule "mimic-lite"]
+	path = mimic-lite
+	url = git@github.com:EGalahad/mimic-lite.git
+	branch = main
+[submodule "sim2real"]
+	path = sim2real
 	url = git@github.com:EGalahad/sim2real.git
 	branch = main

@@ -1,10 +1,9 @@
 [中文版](README_cn.md) | [English](README.md)
 
-# MimicLite 集成仓库
+# MimicLite
 
-本仓库是 MimicLite 训练与部署栈的统一公开入口。它不复制训练仓库或部署仓库的源码，而是通过 Git submodule 固定各组件版本，让公开边界清晰、可审计、可回滚。
-
-> 命名说明：当前 GitHub 仓库为 `Roboparty/MimicLite`。正式 public release 前，建议按 Roboparty 命名规范改为小写下划线形式，例如 `roboparty_mimic_lite`。
+MimicLite 是 Roboparty 面向运动模仿训练、评测和 sim-to-real 部署的公开集成仓库。
+它通过 Git submodule 固定训练工作区、MimicLite 项目代码、报告模板区域和部署栈，使每次 release 都可以复现 checkout。
 
 ## 目录结构
 
@@ -16,50 +15,72 @@ MimicLite/
   MAINTAINERS
   reports/
     template/
-  training/
-    active-adaptation/        # submodule
-      projects/mimic-lite/    # active-adaptation 内部的 nested submodule
-  deploy/
-    sim2real/                 # submodule
+  active-adaptation/      # submodule
+  mimic-lite/             # submodule
+  sim2real/               # submodule
 ```
 
 ## Submodule
 
-| 路径 | 仓库 | 分支 | 用途 |
-| --- | --- | --- | --- |
-| `training/active-adaptation` | `git@github.com:Agent-3154/active-adaptation.git` | `dev/hdmi` | 训练侧工作区入口。 |
-| `training/active-adaptation/projects/mimic-lite` | `git@github.com:EGalahad/mimic-lite.git` | `main` | MimicLite 项目。 |
-| `deploy/sim2real` | `git@github.com:EGalahad/sim2real.git` | `main` | 部署与 sim2real 集成代码。 |
+| 路径 | 仓库 | 分支 | Commit | 用途 |
+| --- | --- | --- | --- | --- |
+| `active-adaptation` | [`Agent-3154/active-adaptation`](https://github.com/Agent-3154/active-adaptation) | `dev/hdmi` | `faea675` | 训练工作区和 launch 脚本。 |
+| `mimic-lite` | [`EGalahad/mimic-lite`](https://github.com/EGalahad/mimic-lite) | `main` | `089d0ad` | MimicLite task、asset 和 learning 代码。 |
+| `sim2real` | [`EGalahad/sim2real`](https://github.com/EGalahad/sim2real) | `main` | `d1833cf` | 部署和 sim-to-real 集成代码。 |
 
-`training/active-adaptation/projects/mimic-lite` 由
-`training/active-adaptation` 内部的 `.gitmodules` 声明；Git 会把子仓库拥有的
-submodule 记录在该子仓库自己的 `.gitmodules` 中。
+## 使用方式
 
-## 克隆方式
+克隆集成仓库并初始化固定版本的 submodule：
 
 ```bash
-git clone git@github.com:Roboparty/MimicLite.git MimicLite
+git clone --recurse-submodules git@github.com:Roboparty/MimicLite.git MimicLite
 cd MimicLite
-git submodule update --init --recursive --remote
+git submodule update --init --recursive
 ```
 
-已有 checkout 更新：
+把 submodule 刷新到 `.gitmodules` 中配置分支的最新 HEAD：
 
 ```bash
-git pull --recurse-submodules
 git submodule sync --recursive
 git submodule update --init --recursive --remote
 ```
 
-父仓库仍会记录具体 submodule commit，便于复现。`--remote` 会让 Git 按
-`.gitmodules` 中声明的 branch 更新，例如 `training/active-adaptation` 使用
-`dev/hdmi`，嵌套的 `projects/mimic-lite` 使用 `main`。
+用 MimicLite 项目文件配置训练环境：
+
+```bash
+cd active-adaptation
+git submodule update --init projects/mimic-lite
+mkdir -p venv/mjlab venv/isaaclab
+cp projects/mimic-lite/pyproject-mjlab.toml venv/mjlab/pyproject.toml
+cp projects/mimic-lite/pyproject-isaaclab.toml venv/isaaclab/pyproject.toml
+uv --project venv/mjlab run aa-discover-projects
+```
+
+运行 PPO 训练：
+
+```bash
+bash scripts/launch_ddp.sh 0,1,2,3 projects/mimic-lite/scripts/train.py venv/mjlab \
+  task=lafan_sonic_100style_real +exp=ppo/train algo/ppo/module=residual backend=mjlab
+```
+
+运行 SAC：
+
+```bash
+bash scripts/launch_ddp.sh 0,1,2,3 projects/mimic-lite/scripts/train.py venv/mjlab \
+  task=lafan_sonic_100style_real +exp=sac/train backend=mjlab
+```
+
+如果 MuJoCo 版本中缺少 `mujoco.mjtEnableBit.mjENBL_MULTICCD`，在 `mjlab` 环境中把 MuJoCo pin 到 3.8 以下并重新 sync：
+
+```bash
+uv --project venv/mjlab add 'mujoco<3.8'
+uv --project venv/mjlab sync
+```
 
 ## 公开边界
 
-- `mimic-lite` submodule 使用已审查的 `main` 分支。
-- `reports/template/` 当前刻意保持为空，仅预留给 Roboparty 统一 tech report 模板。
-- 禁止提交 secret、机器人日志、私有数据集、checkpoint、内部 endpoint 或内部部署拓扑。
+- `reports/template/` 预留给 Roboparty 统一 tech report 模板。
+- 禁止提交 secret、机器人日志、非公开数据集、checkpoint、内部 endpoint 或内部部署拓扑。
 - 文档里的演示密钥必须是假占位符，并明确标注是假密钥。
 
 ## 许可证
