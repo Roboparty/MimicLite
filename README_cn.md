@@ -2,8 +2,8 @@
 
 # MimicLite
 
-MimicLite 是 Roboparty 面向运动模仿训练、评测和 sim-to-real 部署的公开集成仓库。
-它通过 Git submodule 固定训练工作区、MimicLite 项目代码、报告模板区域和部署栈，使每次 release 都可以复现 checkout。
+MimicLite 是 Roboparty 人形机器人运动模仿项目，覆盖 motion loading、tracking task、PPO/SAC 训练、评测和部署交接。
+项目目标是把整理好的 motion data 转成可部署的 tracking policy，并把 training、sim 和 sim-to-real 流程放在同一个入口下。
 
 ## 目录结构
 

@@ -2,8 +2,8 @@
 
 # MimicLite
 
-MimicLite is the public Roboparty integration repository for motion-imitation training, evaluation, and sim-to-real deployment.
-It pins the training workspace, MimicLite project code, report template area, and deployment stack as Git submodules so each release can be checked out reproducibly.
+MimicLite provides a lightweight motion-imitation pipeline for Roboparty humanoid robots, covering motion loading, tracking tasks, PPO/SAC training, evaluation, and deployment handoff.
+The project focuses on turning curated motion data into deployable tracking policies and keeping the training-to-sim-to-real workflow in one place.
 
 ## Structure
 
