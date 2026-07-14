@@ -19,17 +19,17 @@ MimicLite 是一个高效、通用的人形机器人动作跟踪系统，可在 
 
 目前发布 3 个训练 4,000 iterations 的 PPO 策略。GPU-hours 根据对应 checkpoint 的训练 runtime 和 world size 计算；下表和后续评测图使用完全相同的 checkpoint。
 
-| 策略 | Actor hidden dimensions | Checkpoint | 训练算力 | 验证范围 |
-| --- | --- | --- | ---: | --- |
-| MimicLite-Huge | `[1024, 1024, 1024]` | [`xua2csee`](https://wandb.ai/elijahgalahad/mimic_lite/runs/xua2csee) | 139.71 GPU h | MuJoCo 评测和 G1 真机 Pico 遥操作。 |
-| MimicLite-Base | `[256, 256, 256]` | [`iij0q0b5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/iij0q0b5) | 34.70 GPU h | MuJoCo 评测。 |
-| MimicLite-Small | `[128, 128, 128]` | [`zb9e19ih`](https://wandb.ai/elijahgalahad/mimic_lite/runs/zb9e19ih) | 13.79 GPU h | MuJoCo 评测。 |
+| 策略 | Actor hidden dimensions | 并行环境 | Checkpoint | 训练算力 |
+| --- | --- | ---: | --- | ---: |
+| MimicLite-Huge | `[1024, 1024, 1024]` | `32 × 8192` | [`xua2csee`](https://wandb.ai/elijahgalahad/mimic_lite/runs/xua2csee) | 139.71 GPU h |
+| MimicLite-Base | `[256, 256, 256]` | `8 × 8192` | [`iij0q0b5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/iij0q0b5) | 34.70 GPU h |
+| MimicLite-Small | `[128, 128, 128]` | `4 × 8192` | [`zb9e19ih`](https://wandb.ai/elijahgalahad/mimic_lite/runs/zb9e19ih) | 13.79 GPU h |
 
 上文的 3.1 小时是最新 4-GPU 系统验收结果。为避免混用不同 run 的训练成本和评测指标，checkpoint 表保留后续对比图中 3 个正式发布、完成配套评测的策略实测 GPU-hours。
 
 ![MimicLite checkpoint 规模与 SONIC 对比](assets/mimiclite_vs_sonic_readme.png)
 
-图中比较训练 GPU-hours、LAFAN-40 完整动作 progress、PHUMA-30 horizon-normalized progress、Root-8 最终 XY 位移误差，以及 PHUMA-30 局部身体位置误差。所有策略采用统一的 MuJoCo rollout 和 termination 规则进行评测。
+与 SONIC 相比，MimicLite 在动态 LAFAN 动作上保留更多 progress，并改善全局根节点跟踪，同时保持相当的局部跟踪精度。
 
 ## 训练数据
 
@@ -37,17 +37,7 @@ MimicLite 是一个高效、通用的人形机器人动作跟踪系统，可在 
 
 ## 部署支持
 
-部署运行时读取导出的 ONNX 模型和 policy YAML，因此推理侧不依赖策略使用 on-policy 还是 off-policy 算法训练。当前经过公开验证的 MimicLite 部署范围如下：
-
-| 项目 | 支持范围 |
-| --- | --- |
-| 机器人 | Unitree G1。 |
-| 仿真 | MuJoCo sim2sim。 |
-| 真机部署 | 通过 Unitree inline I/O 或 ZMQ bridge 控制 G1；支持 x86 主机和机器人 onboard Orin 两种部署布局。 |
-| MimicLite-Huge PPO | 已完成 MuJoCo 评测，并在 G1 真机上验证 Pico 遥操作。 |
-| MimicLite-Base / Small PPO | 已完成 MuJoCo 评测并兼容相同的导出与运行时接口；不单独声明已经完成真机验证。 |
-
-[`sim2real`](https://github.com/EGalahad/sim2real) 运行时还包含 BFM-Zero、HEFT、Humanoid-GPT、SONIC、TeleopIT 和 TWIST2 的适配器。各类策略的 artifact 下载、环境配置和具体验证状态以该仓库说明为准。
+[`sim2real`](https://github.com/EGalahad/sim2real) 提供模块化 observation 接口，将各策略特有的输入构造与共享部署运行时分离。接入新策略只需要实现对应的 observation class 和 YAML 配置，推理、仿真器与机器人接口均保持不变。同一条公共路径已支持 MimicLite、HEFT、TeleopIT、Humanoid-GPT、BFM-Zero、SONIC 和 TWIST2 的 MuJoCo 集成评测与真机执行。Policy 推理通过可替换的 MuJoCo 和 Unitree G1 真机 backend 与机器人 I/O 解耦。
 
 ## 许可证
 

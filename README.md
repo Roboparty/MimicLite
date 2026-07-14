@@ -19,17 +19,17 @@ This repository is the project landing page. Training, evaluation, dataset conve
 
 The released checkpoint set contains three PPO policies trained for 4,000 iterations. GPU-hours are computed from the checkpoint-matched run runtime and world size; the table and evaluation figure use the same checkpoints.
 
-| Policy | Actor hidden dimensions | Checkpoint | Training compute | Validation |
-| --- | --- | --- | ---: | --- |
-| MimicLite-Huge | `[1024, 1024, 1024]` | [`xua2csee`](https://wandb.ai/elijahgalahad/mimic_lite/runs/xua2csee) | 139.71 GPU h | MuJoCo evaluation and physical G1 Pico teleoperation. |
-| MimicLite-Base | `[256, 256, 256]` | [`iij0q0b5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/iij0q0b5) | 34.70 GPU h | MuJoCo evaluation. |
-| MimicLite-Small | `[128, 128, 128]` | [`zb9e19ih`](https://wandb.ai/elijahgalahad/mimic_lite/runs/zb9e19ih) | 13.79 GPU h | MuJoCo evaluation. |
+| Policy | Actor hidden dimensions | Parallel environments | Checkpoint | Training compute |
+| --- | --- | ---: | --- | ---: |
+| MimicLite-Huge | `[1024, 1024, 1024]` | `32 × 8192` | [`xua2csee`](https://wandb.ai/elijahgalahad/mimic_lite/runs/xua2csee) | 139.71 GPU h |
+| MimicLite-Base | `[256, 256, 256]` | `8 × 8192` | [`iij0q0b5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/iij0q0b5) | 34.70 GPU h |
+| MimicLite-Small | `[128, 128, 128]` | `4 × 8192` | [`zb9e19ih`](https://wandb.ai/elijahgalahad/mimic_lite/runs/zb9e19ih) | 13.79 GPU h |
 
 The 3.1-hour result above is the latest four-GPU system acceptance result. The checkpoint table retains the measured compute of the released, evaluation-matched variants shown below rather than mixing results from different runs.
 
 ![MimicLite checkpoint scaling and SONIC comparison](assets/mimiclite_vs_sonic_readme.png)
 
-The comparison reports training GPU-hours, full-motion LAFAN-40 and horizon-normalized PHUMA-30 progress, Root-8 final XY displacement error, and PHUMA-30 local body-position error. Evaluation uses aligned MuJoCo rollouts and termination rules.
+Compared with SONIC, MimicLite retains more progress on dynamic LAFAN motions and improves global root tracking while maintaining comparable local tracking accuracy.
 
 ## Training Data
 
@@ -37,17 +37,7 @@ Released training datasets are collected in the [`any4hdmi` Hugging Face collect
 
 ## Deployment Support
 
-The deployment runtime consumes an exported ONNX model and its policy YAML, so inference is independent of whether the policy was trained with an on-policy or off-policy algorithm. Publicly validated MimicLite deployment support is:
-
-| Item | Supported scope |
-| --- | --- |
-| Robot | Unitree G1. |
-| Simulation | MuJoCo sim2sim. |
-| Physical deployment | Unitree G1 through inline Unitree I/O or a ZMQ bridge; x86 host and onboard Orin layouts are supported. |
-| MimicLite-Huge PPO | MuJoCo evaluated and verified on a physical G1 with Pico teleoperation. |
-| MimicLite-Base / Small PPO | MuJoCo evaluated and compatible with the same export/runtime contract; no separate physical-robot validation is claimed. |
-
-The [`sim2real`](https://github.com/EGalahad/sim2real) runtime also contains adapters for BFM-Zero, HEFT, Humanoid-GPT, SONIC, TeleopIT, and TWIST2. See that repository for artifact downloads, setup, and the validation status of each adapted policy family.
+The [`sim2real`](https://github.com/EGalahad/sim2real) runtime provides a modular observation interface that separates policy-specific input construction from the shared deployment runtime. Integrating a policy requires only an observation class and a YAML specification; the inference, simulator, and robot interfaces remain unchanged. This common path supports integrated MuJoCo evaluation and real-robot execution for MimicLite, HEFT, TeleopIT, Humanoid-GPT, BFM-Zero, SONIC, and TWIST2. Policy inference is decoupled from robot I/O through interchangeable MuJoCo and physical Unitree G1 backends.
 
 ## License
 
