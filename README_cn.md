@@ -2,7 +2,9 @@
 
 # MimicLite
 
-MimicLite 是一个高效、通用的人形机器人动作跟踪系统，可在 4 张 RTX 4090 上约 3.1 小时训练出可部署策略，同时保持有竞争力的跟踪效果。在统一的 MuJoCo 评测中，MimicLite 的全局根节点跟踪优于 SONIC，局部跟踪精度与其相当。同一策略已支持 Unitree G1 真机上的低延迟 Pico 实时遥操作和高动态动作跟踪。
+MimicLite 是一个高效、通用的人形机器人动作跟踪系统，可在 8 张 RTX 4090 上用 3 小时训练出可部署策略，同时保持有竞争力的跟踪效果。在统一的 MuJoCo 评测中，MimicLite 的全局根节点跟踪优于 SONIC，局部跟踪精度与其相当。同一策略已支持 Unitree G1 真机上的低延迟 Pico 实时遥操作和高动态动作跟踪。
+
+技术报告位于 [`mimic-lite.pdf`](mimic-lite.pdf)。
 
 ## 项目仓库
 
@@ -17,15 +19,15 @@ MimicLite 是一个高效、通用的人形机器人动作跟踪系统，可在 
 
 ## 已发布 Checkpoint
 
-目前发布 3 个训练 4,000 iterations 的 PPO 策略。GPU-hours 根据对应 checkpoint 的训练 runtime 和 world size 计算；下表和后续评测图使用完全相同的 checkpoint。
+目前发布 3 个训练 4,000 iterations 的 PPO 策略。训练时间列给出在 RTX 4090 上完成 4,000 updates 的 wall-clock time。下方跟踪性能图评测表中列出的正式发布 checkpoint。
 
-| 策略 | Actor hidden dimensions | 并行环境 | Checkpoint | 训练算力 |
+| 策略 | Actor hidden dimensions | 并行环境 | Checkpoint | 训练时间 |
 | --- | --- | ---: | --- | ---: |
-| MimicLite-Huge | `[1024, 1024, 1024]` | `32 × 8192` | [`xua2csee`](https://wandb.ai/elijahgalahad/mimic_lite/runs/xua2csee) | 139.71 GPU h |
-| MimicLite-Base | `[256, 256, 256]` | `8 × 8192` | [`iij0q0b5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/iij0q0b5) | 34.70 GPU h |
-| MimicLite-Small | `[128, 128, 128]` | `4 × 8192` | [`zb9e19ih`](https://wandb.ai/elijahgalahad/mimic_lite/runs/zb9e19ih) | 13.79 GPU h |
+| MimicLite-Huge | `[1024, 1024, 1024]` | `32 × 8192` | [`xua2csee`](https://wandb.ai/elijahgalahad/mimic_lite/runs/xua2csee) | 3 小时 30 分钟 |
+| MimicLite-Base | `[256, 256, 256]` | `8 × 8192` | [`iij0q0b5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/iij0q0b5) | 2 小时 57 分钟 |
+| MimicLite-Small | `[128, 128, 128]` | `4 × 8192` | [`zb9e19ih`](https://wandb.ai/elijahgalahad/mimic_lite/runs/zb9e19ih) | 3 小时 00 分钟 |
 
-上文的 3.1 小时是最新 4-GPU 系统验收结果。为避免混用不同 run 的训练成本和评测指标，checkpoint 表保留后续对比图中 3 个正式发布、完成配套评测的策略实测 GPU-hours。
+训练时间来源：Huge [`55ie49o5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/55ie49o5)、Base [`07k900hl`](https://wandb.ai/elijahgalahad/mimic_lite/runs/07k900hl)、Small [`akq50h1n`](https://wandb.ai/elijahgalahad/mimic_lite/runs/akq50h1n)。
 
 ![MimicLite checkpoint 规模与 SONIC 对比](assets/mimiclite_vs_sonic_readme.png)
 

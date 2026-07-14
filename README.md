@@ -2,7 +2,9 @@
 
 # MimicLite
 
-MimicLite is an efficient, general humanoid motion-tracking system that can train a deployable policy in 3.1 hours on four RTX 4090 GPUs while retaining competitive tracking quality. Under a matched MuJoCo evaluation, MimicLite improves global root tracking over SONIC while achieving comparable local tracking accuracy. The same policy supports low-latency Pico-driven teleoperation and highly dynamic motion tracking on a physical Unitree G1.
+MimicLite is an efficient, general humanoid motion-tracking system that can train a deployable policy in 3 hours on 8 RTX 4090 GPUs while retaining competitive tracking quality. Under a matched MuJoCo evaluation, MimicLite improves global root tracking over SONIC while achieving comparable local tracking accuracy. The same policy supports low-latency Pico-driven teleoperation and highly dynamic motion tracking on a physical Unitree G1.
+
+The technical report is available at [`mimic-lite.pdf`](mimic-lite.pdf).
 
 ## Project Repositories
 
@@ -17,15 +19,15 @@ This repository is the project landing page. Training, evaluation, dataset conve
 
 ## Released Checkpoints
 
-The released checkpoint set contains three PPO policies trained for 4,000 iterations. GPU-hours are computed from the checkpoint-matched run runtime and world size; the table and evaluation figure use the same checkpoints.
+The released checkpoint set contains three PPO policies trained for 4,000 iterations. The wall-clock column reports the 4,000-update training time on RTX 4090 GPUs. The tracking panels below evaluate the released checkpoints listed in the table.
 
-| Policy | Actor hidden dimensions | Parallel environments | Checkpoint | Training compute |
+| Policy | Actor hidden dimensions | Parallel environments | Checkpoint | Wall-clock time |
 | --- | --- | ---: | --- | ---: |
-| MimicLite-Huge | `[1024, 1024, 1024]` | `32 × 8192` | [`xua2csee`](https://wandb.ai/elijahgalahad/mimic_lite/runs/xua2csee) | 139.71 GPU h |
-| MimicLite-Base | `[256, 256, 256]` | `8 × 8192` | [`iij0q0b5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/iij0q0b5) | 34.70 GPU h |
-| MimicLite-Small | `[128, 128, 128]` | `4 × 8192` | [`zb9e19ih`](https://wandb.ai/elijahgalahad/mimic_lite/runs/zb9e19ih) | 13.79 GPU h |
+| MimicLite-Huge | `[1024, 1024, 1024]` | `32 × 8192` | [`xua2csee`](https://wandb.ai/elijahgalahad/mimic_lite/runs/xua2csee) | 3 h 30 min |
+| MimicLite-Base | `[256, 256, 256]` | `8 × 8192` | [`iij0q0b5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/iij0q0b5) | 2 h 57 min |
+| MimicLite-Small | `[128, 128, 128]` | `4 × 8192` | [`zb9e19ih`](https://wandb.ai/elijahgalahad/mimic_lite/runs/zb9e19ih) | 3 h 00 min |
 
-The 3.1-hour result above is the latest four-GPU system acceptance result. The checkpoint table retains the measured compute of the released, evaluation-matched variants shown below rather than mixing results from different runs.
+Training-time sources: Huge [`55ie49o5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/55ie49o5), Base [`07k900hl`](https://wandb.ai/elijahgalahad/mimic_lite/runs/07k900hl), and Small [`akq50h1n`](https://wandb.ai/elijahgalahad/mimic_lite/runs/akq50h1n).
 
 ![MimicLite checkpoint scaling and SONIC comparison](assets/mimiclite_vs_sonic_readme.png)
 
