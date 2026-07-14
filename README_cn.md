@@ -33,7 +33,7 @@ MimicLite 是一个高效、通用的人形机器人动作跟踪系统，可在 
 
 ## 训练数据
 
-已公开的训练数据集统一收录在 [`any4hdmi` Hugging Face collection](https://huggingface.co/collections/elijahgalahad/any4hdmi)。对于存在转载授权或版权风险的原始 seed/source 数据集，项目不会重新分发数据文件，只在 [`EGalahad/any4hdmi`](https://github.com/EGalahad/any4hdmi) 提供转换脚本和处理工具。
+已公开的训练数据集统一收录在 [`any4hdmi` Hugging Face collection](https://huggingface.co/collections/elijahgalahad/any4hdmi)。唯一的例外是 [`BONES-SEED` 数据集](https://huggingface.co/datasets/bones-studio/seed)：为遵守其许可证和再分发条款，用户需要从原始来源获取数据；[`EGalahad/any4hdmi`](https://github.com/EGalahad/any4hdmi) 只提供对应的转换脚本和处理工具。
 
 ## 部署支持
 

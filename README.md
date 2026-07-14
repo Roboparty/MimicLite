@@ -33,7 +33,7 @@ The comparison reports training GPU-hours, full-motion LAFAN-40 and horizon-norm
 
 ## Training Data
 
-Released training datasets are collected in the [`any4hdmi` Hugging Face collection](https://huggingface.co/collections/elijahgalahad/any4hdmi). Source or seed datasets with redistribution or copyright risk are intentionally not mirrored; for those datasets, [`EGalahad/any4hdmi`](https://github.com/EGalahad/any4hdmi) provides conversion scripts and processing tools only.
+Released training datasets are collected in the [`any4hdmi` Hugging Face collection](https://huggingface.co/collections/elijahgalahad/any4hdmi). The [`BONES-SEED` dataset](https://huggingface.co/datasets/bones-studio/seed) is the exception: to respect its license and redistribution terms, users obtain it from the original source, while [`EGalahad/any4hdmi`](https://github.com/EGalahad/any4hdmi) provides only the conversion scripts and processing tools.
 
 ## Deployment Support
 
