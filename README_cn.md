@@ -2,87 +2,53 @@
 
 # MimicLite
 
-MimicLite 是 Roboparty 人形机器人运动模仿项目，覆盖 motion loading、tracking task、PPO/SAC 训练、评测和部署交接。
-项目目标是把整理好的 motion data 转成可部署的 tracking policy，并把 training、sim 和 sim-to-real 流程放在同一个入口下。
+MimicLite 是一个高效、通用的人形机器人动作跟踪系统，可在 4 张 RTX 4090 上约 3.1 小时训练出可部署策略，同时保持有竞争力的跟踪效果。在统一的 MuJoCo 评测中，MimicLite 的全局根节点跟踪优于 SONIC，局部跟踪精度与其相当。同一策略已支持 Unitree G1 真机上的低延迟 Pico 实时遥操作和高动态动作跟踪。
 
-## 目录结构
+## 项目仓库
 
-```text
-MimicLite/
-  README.md
-  README_cn.md
-  LICENSE
-  MAINTAINERS
-  reports/
-    template/
-  active-adaptation/      # submodule
-  mimic-lite/             # submodule
-  sim2real/               # submodule
-```
+本仓库是 MimicLite 的项目入口。训练、评测、数据转换和部署说明分别由对应仓库维护：
 
-## Submodule
+| 组件 | 仓库 | 内容 |
+| --- | --- | --- |
+| MimicLite | [`EGalahad/mimic-lite`](https://github.com/EGalahad/mimic-lite) | 训练、评测、策略导出、任务配置和学习代码。 |
+| 训练框架 | [`Agent-3154/active-adaptation`](https://github.com/Agent-3154/active-adaptation) | 仿真后端、分布式启动器、环境和共享基础设施。 |
+| 动作数据工具 | [`EGalahad/any4hdmi`](https://github.com/EGalahad/any4hdmi) | 动作转换、验证、可视化和数据集工具。 |
+| 部署运行时 | [`EGalahad/sim2real`](https://github.com/EGalahad/sim2real) | ONNX 推理、MuJoCo sim2sim、Pico 遥操作和 Unitree G1 部署。 |
 
-| 路径 | 仓库 | 分支 | Commit | 用途 |
-| --- | --- | --- | --- | --- |
-| `active-adaptation` | [`Agent-3154/active-adaptation`](https://github.com/Agent-3154/active-adaptation) | `dev/hdmi` | `faea675` | 训练工作区和 launch 脚本。 |
-| `mimic-lite` | [`EGalahad/mimic-lite`](https://github.com/EGalahad/mimic-lite) | `main` | `089d0ad` | MimicLite task、asset 和 learning 代码。 |
-| `sim2real` | [`EGalahad/sim2real`](https://github.com/EGalahad/sim2real) | `main` | `d1833cf` | 部署和 sim-to-real 集成代码。 |
+## 已发布 Checkpoint
 
-## 使用方式
+目前发布 3 个训练 4,000 iterations 的 PPO 策略。GPU-hours 根据对应 checkpoint 的训练 runtime 和 world size 计算；下表和后续评测图使用完全相同的 checkpoint。
 
-克隆集成仓库并初始化固定版本的 submodule：
+| 策略 | Actor hidden dimensions | Checkpoint | 训练算力 | 验证范围 |
+| --- | --- | --- | ---: | --- |
+| MimicLite-Huge | `[1024, 1024, 1024]` | [`xua2csee`](https://wandb.ai/elijahgalahad/mimic_lite/runs/xua2csee) | 139.71 GPU h | MuJoCo 评测和 G1 真机 Pico 遥操作。 |
+| MimicLite-Base | `[256, 256, 256]` | [`iij0q0b5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/iij0q0b5) | 34.70 GPU h | MuJoCo 评测。 |
+| MimicLite-Small | `[128, 128, 128]` | [`zb9e19ih`](https://wandb.ai/elijahgalahad/mimic_lite/runs/zb9e19ih) | 13.79 GPU h | MuJoCo 评测。 |
 
-```bash
-git clone --recurse-submodules git@github.com:Roboparty/MimicLite.git MimicLite
-cd MimicLite
-git submodule update --init --recursive
-```
+上文的 3.1 小时是最新 4-GPU 系统验收结果。为避免混用不同 run 的训练成本和评测指标，checkpoint 表保留后续对比图中 3 个正式发布、完成配套评测的策略实测 GPU-hours。
 
-把 submodule 刷新到 `.gitmodules` 中配置分支的最新 HEAD：
+![MimicLite checkpoint 规模与 SONIC 对比](assets/mimiclite_vs_sonic_readme.png)
 
-```bash
-git submodule sync --recursive
-git submodule update --init --recursive --remote
-```
+图中比较训练 GPU-hours、LAFAN-40 完整动作 progress、PHUMA-30 horizon-normalized progress、Root-8 最终 XY 位移误差，以及 PHUMA-30 局部身体位置误差。所有策略采用统一的 MuJoCo rollout 和 termination 规则进行评测。
 
-用 MimicLite 项目文件配置训练环境：
+## 训练数据
 
-```bash
-cd active-adaptation
-git submodule update --init projects/mimic-lite
-mkdir -p venv/mjlab venv/isaaclab
-cp projects/mimic-lite/pyproject-mjlab.toml venv/mjlab/pyproject.toml
-cp projects/mimic-lite/pyproject-isaaclab.toml venv/isaaclab/pyproject.toml
-uv --project venv/mjlab run aa-discover-projects
-```
+已公开的训练数据集统一收录在 [`any4hdmi` Hugging Face collection](https://huggingface.co/collections/elijahgalahad/any4hdmi)。对于存在转载授权或版权风险的原始 seed/source 数据集，项目不会重新分发数据文件，只在 [`EGalahad/any4hdmi`](https://github.com/EGalahad/any4hdmi) 提供转换脚本和处理工具。
 
-运行 PPO 训练：
+## 部署支持
 
-```bash
-bash scripts/launch_ddp.sh 0,1,2,3 projects/mimic-lite/scripts/train.py venv/mjlab \
-  task=lafan_sonic_100style_real +exp=ppo/train algo/ppo/module=residual backend=mjlab
-```
+部署运行时读取导出的 ONNX 模型和 policy YAML，因此推理侧不依赖策略使用 on-policy 还是 off-policy 算法训练。当前经过公开验证的 MimicLite 部署范围如下：
 
-运行 SAC：
+| 项目 | 支持范围 |
+| --- | --- |
+| 机器人 | Unitree G1。 |
+| 仿真 | MuJoCo sim2sim。 |
+| 真机部署 | 通过 Unitree inline I/O 或 ZMQ bridge 控制 G1；支持 x86 主机和机器人 onboard Orin 两种部署布局。 |
+| MimicLite-Huge PPO | 已完成 MuJoCo 评测，并在 G1 真机上验证 Pico 遥操作。 |
+| MimicLite-Base / Small PPO | 已完成 MuJoCo 评测并兼容相同的导出与运行时接口；不单独声明已经完成真机验证。 |
 
-```bash
-bash scripts/launch_ddp.sh 0,1,2,3 projects/mimic-lite/scripts/train.py venv/mjlab \
-  task=lafan_sonic_100style_real +exp=sac/train backend=mjlab
-```
-
-如果 MuJoCo 版本中缺少 `mujoco.mjtEnableBit.mjENBL_MULTICCD`，在 `mjlab` 环境中把 MuJoCo pin 到 3.8 以下并重新 sync：
-
-```bash
-uv --project venv/mjlab add 'mujoco<3.8'
-uv --project venv/mjlab sync
-```
-
-## 公开边界
-
-- `reports/template/` 预留给 Roboparty 统一 tech report 模板。
-- 禁止提交 secret、机器人日志、非公开数据集、checkpoint、内部 endpoint 或内部部署拓扑。
-- 文档里的演示密钥必须是假占位符，并明确标注是假密钥。
+[`sim2real`](https://github.com/EGalahad/sim2real) 运行时还包含 BFM-Zero、HEFT、Humanoid-GPT、SONIC、TeleopIT 和 TWIST2 的适配器。各类策略的 artifact 下载、环境配置和具体验证状态以该仓库说明为准。
 
 ## 许可证
 
-本集成仓库采用 GPL-3.0-or-later。各 submodule 保留自身仓库历史与许可证文件；正式发布前必须逐项确认组件许可证兼容性。
+本集成仓库采用 GPL-3.0-or-later。各组件仓库保留自身历史和许可证文件；重新分发前需要分别确认数据集和组件许可证。
