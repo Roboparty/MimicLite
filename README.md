@@ -29,7 +29,7 @@ The released checkpoint set contains three PPO policies trained for 4,000 iterat
 
 Training-time sources: Huge [`55ie49o5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/55ie49o5), Base [`07k900hl`](https://wandb.ai/elijahgalahad/mimic_lite/runs/07k900hl), and Small [`akq50h1n`](https://wandb.ai/elijahgalahad/mimic_lite/runs/akq50h1n).
 
-![MimicLite checkpoint scaling and SONIC comparison](assets/mimiclite_vs_sonic_readme.png)
+![Unified cross-codebase tracking evaluation](assets/mimiclite_vs_sonic_readme.png)
 
 Compared with SONIC, MimicLite retains more progress on dynamic LAFAN motions and improves global root tracking while maintaining comparable local tracking accuracy.
 
@@ -47,7 +47,7 @@ Released training datasets are collected in the [`any4hdmi` Hugging Face collect
 
 ## Deployment Support
 
-The [`sim2real`](https://github.com/EGalahad/sim2real) runtime provides a modular observation interface that separates policy-specific input construction from the shared deployment runtime. Integrating a policy requires only an observation class and a YAML specification; the inference, simulator, and robot interfaces remain unchanged. This common path supports integrated MuJoCo evaluation and real-robot execution for MimicLite, BFM-Zero, SONIC release, SONIC low-latency, HoloMotion, TeleopIT, Humanoid-GPT, HEFT, and TWIST2. Policy inference is decoupled from robot I/O through interchangeable MuJoCo and physical Unitree G1 backends.
+The [`sim2real`](https://github.com/EGalahad/sim2real) runtime provides a modular observation interface that separates policy-specific input construction from the shared deployment runtime. Integrating a policy requires only an observation class and a YAML specification; the inference, simulator, and robot interfaces remain unchanged. This common path supports integrated MuJoCo evaluation and real-robot execution for MimicLite, HEFT, TeleopIT, Humanoid-GPT, BFM-Zero, SONIC, and TWIST2. Policy inference is decoupled from robot I/O through interchangeable MuJoCo and physical Unitree G1 backends.
 
 ## License
 

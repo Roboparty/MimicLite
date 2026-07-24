@@ -29,9 +29,15 @@ MimicLite 是一个高效、通用的人形机器人动作跟踪系统，可在 
 
 训练时间来源：Huge [`55ie49o5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/55ie49o5)、Base [`07k900hl`](https://wandb.ai/elijahgalahad/mimic_lite/runs/07k900hl)、Small [`akq50h1n`](https://wandb.ai/elijahgalahad/mimic_lite/runs/akq50h1n)。
 
-![MimicLite checkpoint 规模与 SONIC 对比](assets/mimiclite_vs_sonic_readme.png)
+![统一的跨代码库动作跟踪评测](assets/mimiclite_vs_sonic_readme.png)
 
 与 SONIC 相比，MimicLite 在动态 LAFAN 动作上保留更多 progress，并改善全局根节点跟踪，同时保持相当的局部跟踪精度。
+
+为了公平比较，我们报告每个 policy 所需的 motion-lookahead latency，并将其定义为最远 future reference frame 对应的时间。所有数值均采用统一的 50 Hz reference-motion contract。
+
+| Policy | MimicLite | BFM-Zero | SONIC release | SONIC low-latency | HoloMotion | TeleopIT | Humanoid-GPT | HEFT | TWIST2 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Motion-lookahead latency | 0.08 s | 0.12 s | 0.90 s | 0.18 s | 0.20 s | 0.00 s | 0.02 s | 0.12 s | 0.00 s |
 
 ## 训练数据
 
