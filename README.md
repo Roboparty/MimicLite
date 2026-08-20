@@ -26,9 +26,9 @@ Base PPO releases. The wall-clock column reports training time on RTX 4090 GPUs.
 | --- | --- | ---: | --- | ---: |
 | MimicLite-v1.1 | `[1024, 1024, 1024]` | `16 × 16000` (`15000` finetune) | [`ece66d1a`](https://wandb.ai/elijahgalahad/mimic_lite/runs/ece66d1a) | 15 h 29 min |
 | MimicLite-Huge | `[1024, 1024, 1024]` | `32 × 8192` | [`xua2csee`](https://wandb.ai/elijahgalahad/mimic_lite/runs/xua2csee) | 3 h 30 min |
-| MimicLite-Base | `[512, 512, 512]` | `8 × 8192` | [`5faklddi`](https://wandb.ai/elijahgalahad/mimic_lite/runs/5faklddi) | 4 h 16 min |
+| MimicLite-Base | `[1024, 1024, 1024]` | `8 × 8192` | [`iij0q0b5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/iij0q0b5) | 4 h 20 min |
 
-Original training-time sources: Huge [`55ie49o5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/55ie49o5) and Base [`5faklddi`](https://wandb.ai/elijahgalahad/mimic_lite/runs/5faklddi).
+Original training-time sources: Huge [`55ie49o5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/55ie49o5) and Base [`iij0q0b5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/iij0q0b5).
 
 Download the MimicLite v1.1 deploy ONNX and YAML from the
 [shared sim2real artifacts](https://drive.google.com/drive/folders/1JIIXn_gTPZC94Bg5RneID4rRaFGhX8fo).
