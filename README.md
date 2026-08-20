@@ -19,27 +19,34 @@ This repository is the project landing page. Training, evaluation, dataset conve
 
 ## Released Checkpoints
 
-The released checkpoint set contains three PPO policies trained for 4,000 iterations. The wall-clock column reports the 4,000-update training time on RTX 4090 GPUs. The tracking panels below evaluate the released checkpoints listed in the table.
+The released checkpoint set contains MimicLite v1.1 plus the three original
+PPO scale variants. The wall-clock column reports training time on RTX 4090
+GPUs.
 
 | Policy | Actor hidden dimensions | Parallel environments | Checkpoint | Wall-clock time |
 | --- | --- | ---: | --- | ---: |
+| MimicLite-v1.1 | `[1024, 1024, 1024]` | `16 × 16000` (`15000` finetune) | [`ece66d1a`](https://wandb.ai/elijahgalahad/mimic_lite/runs/ece66d1a) | 15 h 29 min |
 | MimicLite-Huge | `[1024, 1024, 1024]` | `32 × 8192` | [`xua2csee`](https://wandb.ai/elijahgalahad/mimic_lite/runs/xua2csee) | 3 h 30 min |
 | MimicLite-Base | `[256, 256, 256]` | `8 × 8192` | [`iij0q0b5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/iij0q0b5) | 2 h 57 min |
 | MimicLite-Small | `[128, 128, 128]` | `4 × 8192` | [`zb9e19ih`](https://wandb.ai/elijahgalahad/mimic_lite/runs/zb9e19ih) | 3 h 00 min |
 
 Training-time sources: Huge [`55ie49o5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/55ie49o5), Base [`07k900hl`](https://wandb.ai/elijahgalahad/mimic_lite/runs/07k900hl), and Small [`akq50h1n`](https://wandb.ai/elijahgalahad/mimic_lite/runs/akq50h1n).
 
-![Unified cross-codebase tracking evaluation](assets/mimiclite_vs_sonic_readme.png)
+Download the MimicLite v1.1 deploy ONNX and YAML from the
+[shared sim2real artifacts](https://drive.google.com/drive/folders/1JIIXn_gTPZC94Bg5RneID4rRaFGhX8fo).
 
-Compared with SONIC, MimicLite retains more progress on dynamic LAFAN motions and improves global root tracking while maintaining comparable local tracking accuracy.
+![Canonical cross-codebase tracking evaluation](assets/mimic_lite_cross_codebase_tracking_eval.png)
+
+The canonical comparison uses LAFAN-40, PHUMA-30, and Root-90. Local body
+error is reported independently on PHUMA-30 and Root-90.
 
 For a fair comparison, we report the motion-lookahead latency required by each
 policy, defined by its furthest required future-reference frame. All values use
 the shared 50 Hz reference-motion contract.
 
-| Policy | MimicLite | BFM-Zero | SONIC release | SONIC low-latency | HoloMotion | TeleopIT | Humanoid-GPT | HEFT | TWIST2 |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Motion-lookahead latency | 0.08 s | 0.12 s | 0.90 s | 0.18 s | 0.20 s | 0.00 s | 0.02 s | 0.12 s | 0.00 s |
+| Policy | MimicLite-Huge | MimicLite-v1.1 | BFM-Zero | SONIC | SONIC-v1.1 | SONIC low-latency | HoloMotion | TeleopIT | Humanoid-GPT | HEFT | TWIST2 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Motion-lookahead latency | 0.08 s | 0.08 s | 0.12 s | 0.90 s | 0.90 s | 0.18 s | 0.20 s | 0.00 s | 0.02 s | 0.12 s | 0.00 s |
 
 ## Training Data
 
