@@ -35,7 +35,11 @@ MimicLite v1.1 的 deploy ONNX 和 YAML 可从
 ![统一 cross-codebase 跟踪评测](assets/mimic_lite_cross_codebase_tracking_eval.png)
 
 统一对比采用 LAFAN-40、PHUMA-30 和 Root-90；局部身体误差分别在
-PHUMA-30 与 Root-90 上报告。
+PHUMA-30 与 Root-90 上报告。Normalized tracking return 累加统一 BeyondMimic
+anchor termination 之前的 body-position 与 body-orientation reward，再除以完整
+reference motion 长度。
+[不使用 termination 的对照图](assets/mimic_lite_cross_codebase_tracking_eval_all_step_reward.png)
+则直接在所有 motion steps 上平均相同 reward。
 
 为了公平比较，我们报告每个 policy 所需的 motion-lookahead latency，并将其定义为最远 future reference frame 对应的时间。所有数值均采用统一的 50 Hz reference-motion contract。
 
