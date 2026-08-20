@@ -19,15 +19,16 @@ This repository is the project landing page. Training, evaluation, dataset conve
 
 ## Released Checkpoints
 
-The released checkpoint set contains MimicLite v1.1 and the original Huge PPO
-release. The wall-clock column reports training time on RTX 4090 GPUs.
+The released checkpoint set contains MimicLite v1.1 and the original Huge and
+Base PPO releases. The wall-clock column reports training time on RTX 4090 GPUs.
 
 | Policy | Actor hidden dimensions | Parallel environments | Checkpoint | Wall-clock time |
 | --- | --- | ---: | --- | ---: |
 | MimicLite-v1.1 | `[1024, 1024, 1024]` | `16 × 16000` (`15000` finetune) | [`ece66d1a`](https://wandb.ai/elijahgalahad/mimic_lite/runs/ece66d1a) | 15 h 29 min |
 | MimicLite-Huge | `[1024, 1024, 1024]` | `32 × 8192` | [`xua2csee`](https://wandb.ai/elijahgalahad/mimic_lite/runs/xua2csee) | 3 h 30 min |
+| MimicLite-Base | `[256, 256, 256]` | `8 × 8192` | [`iij0q0b5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/iij0q0b5) | 2 h 57 min |
 
-Original Huge training-time source: [`55ie49o5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/55ie49o5).
+Original training-time sources: Huge [`55ie49o5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/55ie49o5) and Base [`07k900hl`](https://wandb.ai/elijahgalahad/mimic_lite/runs/07k900hl).
 
 Download the MimicLite v1.1 deploy ONNX and YAML from the
 [shared sim2real artifacts](https://drive.google.com/drive/folders/1JIIXn_gTPZC94Bg5RneID4rRaFGhX8fo).
@@ -38,9 +39,9 @@ For a fair comparison, we report the motion-lookahead latency required by each
 policy, defined by its furthest required future-reference frame. All values use
 the shared 50 Hz reference-motion contract.
 
-| Policy | MimicLite-Huge | MimicLite-v1.1 | BFM-Zero | SONIC | SONIC-v1.1 | SONIC low-latency | HoloMotion | TeleopIT | Humanoid-GPT | HEFT | TWIST2 |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Motion-lookahead latency | 0.08 s | 0.08 s | 0.12 s | 0.90 s | 0.90 s | 0.18 s | 0.20 s | 0.00 s | 0.02 s | 0.12 s | 0.00 s |
+| Policy | MimicLite-Huge | MimicLite-v1.1 | MimicLite-Base | BFM-Zero | SONIC | SONIC-v1.1 | SONIC low-latency | HoloMotion | TeleopIT | Humanoid-GPT | HEFT | TWIST2 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Motion-lookahead latency | 0.08 s | 0.08 s | 0.08 s | 0.12 s | 0.90 s | 0.90 s | 0.18 s | 0.20 s | 0.00 s | 0.02 s | 0.12 s | 0.00 s |
 
 ## Training Data
 
