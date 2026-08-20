@@ -19,17 +19,15 @@ MimicLite 是一个高效、通用的人形机器人动作跟踪系统，可在 
 
 ## 已发布 Checkpoint
 
-目前发布 MimicLite v1.1 与 3 个原始 PPO 规模版本。训练时间列给出在
-RTX 4090 上的 wall-clock time。
+目前发布 MimicLite v1.1 与原始 Huge PPO 版本。训练时间列给出在 RTX
+4090 上的 wall-clock time。
 
 | 策略 | Actor hidden dimensions | 并行环境 | Checkpoint | 训练时间 |
 | --- | --- | ---: | --- | ---: |
 | MimicLite-v1.1 | `[1024, 1024, 1024]` | `16 × 16000`（finetune 为 `15000`） | [`ece66d1a`](https://wandb.ai/elijahgalahad/mimic_lite/runs/ece66d1a) | 15 小时 29 分钟 |
 | MimicLite-Huge | `[1024, 1024, 1024]` | `32 × 8192` | [`xua2csee`](https://wandb.ai/elijahgalahad/mimic_lite/runs/xua2csee) | 3 小时 30 分钟 |
-| MimicLite-Base | `[256, 256, 256]` | `8 × 8192` | [`iij0q0b5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/iij0q0b5) | 2 小时 57 分钟 |
-| MimicLite-Small | `[128, 128, 128]` | `4 × 8192` | [`zb9e19ih`](https://wandb.ai/elijahgalahad/mimic_lite/runs/zb9e19ih) | 3 小时 00 分钟 |
 
-训练时间来源：Huge [`55ie49o5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/55ie49o5)、Base [`07k900hl`](https://wandb.ai/elijahgalahad/mimic_lite/runs/07k900hl)、Small [`akq50h1n`](https://wandb.ai/elijahgalahad/mimic_lite/runs/akq50h1n)。
+原始 Huge 训练时间来源：[`55ie49o5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/55ie49o5)。
 
 MimicLite v1.1 的 deploy ONNX 和 YAML 可从
 [共享 sim2real artifacts](https://drive.google.com/drive/folders/1JIIXn_gTPZC94Bg5RneID4rRaFGhX8fo) 下载。
