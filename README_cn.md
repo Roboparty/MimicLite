@@ -26,7 +26,7 @@ RTX 4090 上的 wall-clock time。
 | --- | --- | ---: | --- | ---: |
 | MimicLite-v1.1 | `[1024, 1024, 1024]` | `16 × 16000`（finetune 为 `15000`） | [`ece66d1a`](https://wandb.ai/elijahgalahad/mimic_lite/runs/ece66d1a) | 15 小时 29 分钟 |
 | MimicLite-Huge | `[1024, 1024, 1024]` | `32 × 8192` | [`xua2csee`](https://wandb.ai/elijahgalahad/mimic_lite/runs/xua2csee) | 3 小时 30 分钟 |
-| MimicLite-Base | `[256, 256, 256]` | `8 × 8192` | [`iij0q0b5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/iij0q0b5) | 2 小时 57 分钟 |
+| MimicLite-Base | `[512, 512, 512]` | `8 × 8192` | [`07k900hl`](https://wandb.ai/elijahgalahad/mimic_lite/runs/07k900hl) | 2 小时 57 分钟 |
 
 原始训练时间来源：Huge [`55ie49o5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/55ie49o5)、Base [`07k900hl`](https://wandb.ai/elijahgalahad/mimic_lite/runs/07k900hl)。
 

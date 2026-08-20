@@ -26,7 +26,7 @@ Base PPO releases. The wall-clock column reports training time on RTX 4090 GPUs.
 | --- | --- | ---: | --- | ---: |
 | MimicLite-v1.1 | `[1024, 1024, 1024]` | `16 × 16000` (`15000` finetune) | [`ece66d1a`](https://wandb.ai/elijahgalahad/mimic_lite/runs/ece66d1a) | 15 h 29 min |
 | MimicLite-Huge | `[1024, 1024, 1024]` | `32 × 8192` | [`xua2csee`](https://wandb.ai/elijahgalahad/mimic_lite/runs/xua2csee) | 3 h 30 min |
-| MimicLite-Base | `[256, 256, 256]` | `8 × 8192` | [`iij0q0b5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/iij0q0b5) | 2 h 57 min |
+| MimicLite-Base | `[512, 512, 512]` | `8 × 8192` | [`07k900hl`](https://wandb.ai/elijahgalahad/mimic_lite/runs/07k900hl) | 2 h 57 min |
 
 Original training-time sources: Huge [`55ie49o5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/55ie49o5) and Base [`07k900hl`](https://wandb.ai/elijahgalahad/mimic_lite/runs/07k900hl).
 
