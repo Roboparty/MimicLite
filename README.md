@@ -8,30 +8,36 @@ The technical report is available at [`mimic-lite.pdf`](mimic-lite.pdf).
 
 ## Project Repositories
 
-This repository is the project landing page. Training, evaluation, dataset conversion, and deployment instructions are maintained in their respective repositories:
+This repository is the project landing page. Its submodules pin the multi-robot
+MimicLite implementation and the public main training framework. Training, evaluation, dataset conversion, and deployment instructions are maintained in their respective repositories:
 
 | Component | Repository | Contents |
 | --- | --- | --- |
-| MimicLite | [`EGalahad/mimic-lite`](https://github.com/EGalahad/mimic-lite) | Training, evaluation, policy export, task configs, and learning code. |
+| MimicLite | [`EGalahad/mimic-lite`](https://github.com/EGalahad/mimic-lite/tree/feat/multi-robot-support) | Training, evaluation, policy export, task configs, and learning code. |
 | Training framework | [`Agent-3154/active-adaptation`](https://github.com/Agent-3154/active-adaptation) | Simulation backends, distributed launchers, environments, and shared infrastructure. |
 | Motion data toolkit | [`EGalahad/any4hdmi`](https://github.com/EGalahad/any4hdmi) | Motion conversion, validation, visualization, and dataset tooling. |
 | Deployment runtime | [`EGalahad/sim2real`](https://github.com/EGalahad/sim2real) | ONNX inference, MuJoCo sim2sim, Pico teleoperation, and Unitree G1 deployment. |
 
 ## Released Checkpoints
 
-The public release set now exposes only the latest 16x16384 G1 mixture Huge
-policies. Training compute is reported as GPU hours on RTX 4090 GPUs.
+Released checkpoints below are Finetune-stage ROA student policies. G1 uses
+MimicLite v1.1; the other rows are robot-matched student releases.
 
-| Policy | Actor hidden dimensions | Parallel environments | Checkpoint | GPU hours |
-| --- | --- | ---: | --- | ---: |
-| MimicLite-PPO | `[1024, 1024, 1024]` | `16 × 16384` | [`4234dd57`](https://wandb.ai/elijahgalahad/mimic_lite/runs/4234dd57) | 92.3 |
-| MimicLite-ROA | `[1024, 1024, 1024]` | `16 × 16384` (`train -> adapt -> finetune`) | [`9287d8e0`](https://wandb.ai/elijahgalahad/mimic_lite/runs/9287d8e0) | 173.2 |
+| Robot | Policy | Actor hidden dimensions | Checkpoint |
+| --- | --- | --- | --- |
+| G1 | MimicLite v1.1 ROA student | `[512, 512, 512]` | [Deploy ONNX + YAML](https://drive.google.com/drive/folders/1lrPyiiy7anyG3P4wHNIQQQlydboLPd9e) |
+| H2 | ROA student | `[1024, 1024, 1024]` | [Seed](https://drive.google.com/open?id=12Bjw3hZSp7XHWqh85tzbd6LbK0ebl4IE), [mixture](https://drive.google.com/open?id=1eHO5DXvlHnfT_6QD0Q2NI1cK0xv6NGhA) |
+| A3 | ROA student | `[512, 512, 512]` | [Training + deploy bundle](https://drive.google.com/open?id=1LuzOKObQwMFRJP5I5ieAep_704p1hqgE) |
+| RP1, 28 DoF | ROA student | `[512, 512, 512]` | [Training + deploy bundle](https://drive.google.com/open?id=10nzo4O9ZFJTLf0283RKns_Xmm4YxhjL1) |
+| RP1, 24 DoF | ROA student | `[512, 512, 512]` | [Training + deploy bundle](https://drive.google.com/open?id=1QSMEzhPz_YJ29LB0LP6VC3V9lR73sDwP) |
 
-Download the deploy ONNX and YAML from the shared sim2real artifacts:
-[MimicLite-PPO](https://drive.google.com/drive/folders/1xRmcOX0l-YIpqxUuCmW4s6Dl0HStbJSL)
-and
-[MimicLite-ROA](https://drive.google.com/drive/folders/1AFcvP4oDbEskx-wip5bJN-JBaUvwp8MH).
-Older Huge/Base/v1.1 releases are retained only in the Drive archive.
+See [robot profiles and checkpoint details](https://github.com/EGalahad/mimic-lite/blob/feat/multi-robot-support/docs/checkpoints.md)
+for motion datasets, model revisions, and bundle contents. The A3 release uses
+FullCover motions. G1 v1.1, A3, and RP1 use 4,000 / 1,000 / 2,000
+Train / Adapt / Finetune updates with 8 × 8,192 environments. H2 releases
+retain their original training configurations.
+
+The comparison plot below reports **G1 evaluation only**.
 
 ![Canonical cross-codebase tracking evaluation](assets/mimic_lite_cross_codebase_tracking_eval.png)
 

@@ -8,30 +8,35 @@ MimicLite 是一个高效、通用的人形机器人动作跟踪系统，可在 
 
 ## 项目仓库
 
-本仓库是 MimicLite 的项目入口。训练、评测、数据转换和部署说明分别由对应仓库维护：
+本仓库是 MimicLite 的项目入口，submodule 固定多机器人 MimicLite 实现与 public main 训练框架。训练、评测、数据转换和部署说明分别由对应仓库维护：
 
 | 组件 | 仓库 | 内容 |
 | --- | --- | --- |
-| MimicLite | [`EGalahad/mimic-lite`](https://github.com/EGalahad/mimic-lite) | 训练、评测、策略导出、任务配置和学习代码。 |
+| MimicLite | [`EGalahad/mimic-lite`](https://github.com/EGalahad/mimic-lite/tree/feat/multi-robot-support) | 训练、评测、策略导出、任务配置和学习代码。 |
 | 训练框架 | [`Agent-3154/active-adaptation`](https://github.com/Agent-3154/active-adaptation) | 仿真后端、分布式启动器、环境和共享基础设施。 |
 | 动作数据工具 | [`EGalahad/any4hdmi`](https://github.com/EGalahad/any4hdmi) | 动作转换、验证、可视化和数据集工具。 |
 | 部署运行时 | [`EGalahad/sim2real`](https://github.com/EGalahad/sim2real) | ONNX 推理、MuJoCo sim2sim、Pico 遥操作和 Unitree G1 部署。 |
 
 ## 已发布 Checkpoint
 
-目前发布 MimicLite v1.1 与原始 Huge、Base PPO 版本。训练时间列给出在
-RTX 4090 上的 wall-clock time。
+以下发布的策略均为 Finetune 阶段的 ROA student。G1 使用 MimicLite v1.1，
+其他条目为对应机器人训练的 student。
 
-| 策略 | Actor hidden dimensions | 并行环境 | Checkpoint | 训练时间 |
-| --- | --- | ---: | --- | ---: |
-| MimicLite-v1.1 | `[1024, 1024, 1024]` | `16 × 16000`（finetune 为 `15000`） | [`ece66d1a`](https://wandb.ai/elijahgalahad/mimic_lite/runs/ece66d1a) | 15 小时 29 分钟 |
-| MimicLite-Huge | `[1024, 1024, 1024]` | `32 × 8192` | [`xua2csee`](https://wandb.ai/elijahgalahad/mimic_lite/runs/xua2csee) | 3 小时 30 分钟 |
-| MimicLite-Base | `[1024, 1024, 1024]` | `8 × 8192` | [`iij0q0b5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/iij0q0b5) | 4 小时 20 分钟 |
+| 机器人 | 策略 | Actor hidden dimensions | Checkpoint |
+| --- | --- | --- | --- |
+| G1 | MimicLite v1.1 ROA student | `[512, 512, 512]` | [部署 ONNX + YAML](https://drive.google.com/drive/folders/1lrPyiiy7anyG3P4wHNIQQQlydboLPd9e) |
+| H2 | ROA student | `[1024, 1024, 1024]` | [Seed](https://drive.google.com/open?id=12Bjw3hZSp7XHWqh85tzbd6LbK0ebl4IE), [mixture](https://drive.google.com/open?id=1eHO5DXvlHnfT_6QD0Q2NI1cK0xv6NGhA) |
+| A3 | ROA student | `[512, 512, 512]` | [训练与部署下载包](https://drive.google.com/open?id=1LuzOKObQwMFRJP5I5ieAep_704p1hqgE) |
+| RP1, 28 DoF | ROA student | `[512, 512, 512]` | [训练与部署下载包](https://drive.google.com/open?id=10nzo4O9ZFJTLf0283RKns_Xmm4YxhjL1) |
+| RP1, 24 DoF | ROA student | `[512, 512, 512]` | [训练与部署下载包](https://drive.google.com/open?id=1QSMEzhPz_YJ29LB0LP6VC3V9lR73sDwP) |
 
-原始训练时间来源：Huge [`55ie49o5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/55ie49o5)、Base [`iij0q0b5`](https://wandb.ai/elijahgalahad/mimic_lite/runs/iij0q0b5)。
+各机器人的动作数据、模型版本和下载包内容见
+[机器人配置与 checkpoint 说明](https://github.com/EGalahad/mimic-lite/blob/feat/multi-robot-support/docs/checkpoints.md)。
+A3 发布版本使用 FullCover 动作。G1 v1.1、A3 和 RP1 均使用 8 × 8,192 个环境，
+Train / Adapt / Finetune 分别训练 4,000 / 1,000 / 2,000 updates；
+H2 发布版本保留原始训练配置。
 
-MimicLite v1.1 的 deploy ONNX 和 YAML 可从
-[共享 sim2real artifacts](https://drive.google.com/drive/folders/1JIIXn_gTPZC94Bg5RneID4rRaFGhX8fo) 下载。
+下方对比图仅展示 **G1 评测结果**。
 
 ![统一 cross-codebase 跟踪评测](assets/mimic_lite_cross_codebase_tracking_eval.png)
 
