@@ -22,13 +22,13 @@ MimicLite 是一个高效、通用的人形机器人动作跟踪系统，可在 
 以下发布的策略均为 Finetune 阶段的 ROA student。G1 使用 MimicLite v1.1，
 其他条目为对应机器人训练的 student。
 
-| 机器人 | 策略 | Actor hidden dimensions | Checkpoint |
-| --- | --- | --- | --- |
-| G1 | MimicLite v1.1 ROA student | `[512, 512, 512]` | [部署 ONNX + YAML](https://drive.google.com/drive/folders/1lrPyiiy7anyG3P4wHNIQQQlydboLPd9e) |
-| H2 | ROA student | `[1024, 1024, 1024]` | [Seed](https://drive.google.com/open?id=12Bjw3hZSp7XHWqh85tzbd6LbK0ebl4IE), [mixture](https://drive.google.com/open?id=1eHO5DXvlHnfT_6QD0Q2NI1cK0xv6NGhA) |
-| A3 | ROA student | `[512, 512, 512]` | [训练与部署下载包](https://drive.google.com/open?id=1LuzOKObQwMFRJP5I5ieAep_704p1hqgE) |
-| RP1, 28 DoF | ROA student | `[512, 512, 512]` | [训练与部署下载包](https://drive.google.com/open?id=10nzo4O9ZFJTLf0283RKns_Xmm4YxhjL1) |
-| RP1, 24 DoF | ROA student | `[512, 512, 512]` | [训练与部署下载包](https://drive.google.com/open?id=1QSMEzhPz_YJ29LB0LP6VC3V9lR73sDwP) |
+| 机器人 | Checkpoint |
+| --- | --- |
+| G1 | [Google drive link](https://drive.google.com/drive/folders/1lrPyiiy7anyG3P4wHNIQQQlydboLPd9e) |
+| H2 | [Google drive link](https://drive.google.com/open?id=1eHO5DXvlHnfT_6QD0Q2NI1cK0xv6NGhA) |
+| A3 | [Google drive link](https://drive.google.com/open?id=1LuzOKObQwMFRJP5I5ieAep_704p1hqgE) |
+| RP1, 28 DoF | [Google drive link](https://drive.google.com/open?id=10nzo4O9ZFJTLf0283RKns_Xmm4YxhjL1) |
+| RP1, 24 DoF | [Google drive link](https://drive.google.com/open?id=1QSMEzhPz_YJ29LB0LP6VC3V9lR73sDwP) |
 
 各机器人的动作数据、模型版本和下载包内容见
 [机器人配置与 checkpoint 说明](https://github.com/EGalahad/mimic-lite/blob/feat/multi-robot-support/docs/checkpoints.md)。

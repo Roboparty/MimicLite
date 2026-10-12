@@ -23,13 +23,13 @@ MimicLite implementation and the public main training framework. Training, evalu
 Released checkpoints below are Finetune-stage ROA student policies. G1 uses
 MimicLite v1.1; the other rows are robot-matched student releases.
 
-| Robot | Policy | Actor hidden dimensions | Checkpoint |
-| --- | --- | --- | --- |
-| G1 | MimicLite v1.1 ROA student | `[512, 512, 512]` | [Deploy ONNX + YAML](https://drive.google.com/drive/folders/1lrPyiiy7anyG3P4wHNIQQQlydboLPd9e) |
-| H2 | ROA student | `[1024, 1024, 1024]` | [Seed](https://drive.google.com/open?id=12Bjw3hZSp7XHWqh85tzbd6LbK0ebl4IE), [mixture](https://drive.google.com/open?id=1eHO5DXvlHnfT_6QD0Q2NI1cK0xv6NGhA) |
-| A3 | ROA student | `[512, 512, 512]` | [Training + deploy bundle](https://drive.google.com/open?id=1LuzOKObQwMFRJP5I5ieAep_704p1hqgE) |
-| RP1, 28 DoF | ROA student | `[512, 512, 512]` | [Training + deploy bundle](https://drive.google.com/open?id=10nzo4O9ZFJTLf0283RKns_Xmm4YxhjL1) |
-| RP1, 24 DoF | ROA student | `[512, 512, 512]` | [Training + deploy bundle](https://drive.google.com/open?id=1QSMEzhPz_YJ29LB0LP6VC3V9lR73sDwP) |
+| Robot | Checkpoint |
+| --- | --- |
+| G1 | [Google drive link](https://drive.google.com/drive/folders/1lrPyiiy7anyG3P4wHNIQQQlydboLPd9e) |
+| H2 | [Google drive link](https://drive.google.com/open?id=1eHO5DXvlHnfT_6QD0Q2NI1cK0xv6NGhA) |
+| A3 | [Google drive link](https://drive.google.com/open?id=1LuzOKObQwMFRJP5I5ieAep_704p1hqgE) |
+| RP1, 28 DoF | [Google drive link](https://drive.google.com/open?id=10nzo4O9ZFJTLf0283RKns_Xmm4YxhjL1) |
+| RP1, 24 DoF | [Google drive link](https://drive.google.com/open?id=1QSMEzhPz_YJ29LB0LP6VC3V9lR73sDwP) |
 
 See [robot profiles and checkpoint details](https://github.com/EGalahad/mimic-lite/blob/feat/multi-robot-support/docs/checkpoints.md)
 for motion datasets, model revisions, and bundle contents. The A3 release uses
