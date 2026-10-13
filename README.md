@@ -27,14 +27,15 @@ MimicLite v1.1; the other rows are robot-matched student releases.
 | --- | --- |
 | G1 | [Google drive link](https://drive.google.com/drive/folders/1lrPyiiy7anyG3P4wHNIQQQlydboLPd9e) |
 | H2 | [Google drive link](https://drive.google.com/open?id=1eHO5DXvlHnfT_6QD0Q2NI1cK0xv6NGhA) |
-| A3 | [Google drive link](https://drive.google.com/open?id=1LuzOKObQwMFRJP5I5ieAep_704p1hqgE) |
+| A3 | [Google drive link](https://drive.google.com/open?id=10Lthw5p7hrLtIBB47xXPm3vHToAH2-1F) |
 | RP1, 28 DoF | [Google drive link](https://drive.google.com/open?id=10nzo4O9ZFJTLf0283RKns_Xmm4YxhjL1) |
 | RP1, 24 DoF | [Google drive link](https://drive.google.com/open?id=1QSMEzhPz_YJ29LB0LP6VC3V9lR73sDwP) |
 
 See [robot profiles and checkpoint details](https://github.com/EGalahad/mimic-lite/blob/feat/multi-robot-support/docs/checkpoints.md)
-for motion datasets, model revisions, and bundle contents. The A3 release uses
-FullCover motions. G1 v1.1, A3, and RP1 use 4,000 / 1,000 / 2,000
-Train / Adapt / Finetune updates with 8 × 8,192 environments. H2 releases
+for motion datasets, model revisions, and bundle contents. The A3 release uses a
+LAFAN / 100style / seed mixture with 8 × 4,096 environments. G1 v1.1 and RP1
+use 8 × 8,192 environments. These policies use 4,000 / 1,000 / 2,000
+Train / Adapt / Finetune updates. H2 releases
 retain their original training configurations.
 
 The comparison plot below reports **G1 evaluation only**.

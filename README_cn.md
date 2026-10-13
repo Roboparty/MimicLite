@@ -26,14 +26,15 @@ MimicLite 是一个高效、通用的人形机器人动作跟踪系统，可在 
 | --- | --- |
 | G1 | [Google drive link](https://drive.google.com/drive/folders/1lrPyiiy7anyG3P4wHNIQQQlydboLPd9e) |
 | H2 | [Google drive link](https://drive.google.com/open?id=1eHO5DXvlHnfT_6QD0Q2NI1cK0xv6NGhA) |
-| A3 | [Google drive link](https://drive.google.com/open?id=1LuzOKObQwMFRJP5I5ieAep_704p1hqgE) |
+| A3 | [Google drive link](https://drive.google.com/open?id=10Lthw5p7hrLtIBB47xXPm3vHToAH2-1F) |
 | RP1, 28 DoF | [Google drive link](https://drive.google.com/open?id=10nzo4O9ZFJTLf0283RKns_Xmm4YxhjL1) |
 | RP1, 24 DoF | [Google drive link](https://drive.google.com/open?id=1QSMEzhPz_YJ29LB0LP6VC3V9lR73sDwP) |
 
 各机器人的动作数据、模型版本和下载包内容见
 [机器人配置与 checkpoint 说明](https://github.com/EGalahad/mimic-lite/blob/feat/multi-robot-support/docs/checkpoints.md)。
-A3 发布版本使用 FullCover 动作。G1 v1.1、A3 和 RP1 均使用 8 × 8,192 个环境，
-Train / Adapt / Finetune 分别训练 4,000 / 1,000 / 2,000 updates；
+A3 发布版本使用 LAFAN / 100style / seed mixture，环境数为 8 × 4,096。
+G1 v1.1 和 RP1 使用 8 × 8,192 个环境；这些策略的 Train / Adapt / Finetune
+分别训练 4,000 / 1,000 / 2,000 updates；
 H2 发布版本保留原始训练配置。
 
 下方对比图仅展示 **G1 评测结果**。
