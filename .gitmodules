@@ -5,7 +5,7 @@
 [submodule "mimic-lite"]
 	path = mimic-lite
 	url = git@github.com:EGalahad/mimic-lite.git
-	branch = feat/multi-robot-support
+	branch = main
 [submodule "sim2real"]
 	path = sim2real
 	url = git@github.com:EGalahad/sim2real.git

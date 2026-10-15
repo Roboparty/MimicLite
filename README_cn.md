@@ -12,7 +12,7 @@ MimicLite 是一个高效、通用的人形机器人动作跟踪系统，可在 
 
 | 组件 | 仓库 | 内容 |
 | --- | --- | --- |
-| MimicLite | [`EGalahad/mimic-lite`](https://github.com/EGalahad/mimic-lite/tree/feat/multi-robot-support) | 训练、评测、策略导出、任务配置和学习代码。 |
+| MimicLite | [`EGalahad/mimic-lite`](https://github.com/EGalahad/mimic-lite/tree/main) | 训练、评测、策略导出、任务配置和学习代码。 |
 | 训练框架 | [`Agent-3154/active-adaptation`](https://github.com/Agent-3154/active-adaptation) | 仿真后端、分布式启动器、环境和共享基础设施。 |
 | 动作数据工具 | [`EGalahad/any4hdmi`](https://github.com/EGalahad/any4hdmi) | 动作转换、验证、可视化和数据集工具。 |
 | 部署运行时 | [`EGalahad/sim2real`](https://github.com/EGalahad/sim2real) | ONNX 推理、MuJoCo sim2sim、Pico 遥操作和 Unitree G1 部署。 |
@@ -31,7 +31,7 @@ MimicLite 是一个高效、通用的人形机器人动作跟踪系统，可在 
 | RP1, 24 DoF | [Google drive link](https://drive.google.com/open?id=1QSMEzhPz_YJ29LB0LP6VC3V9lR73sDwP) |
 
 各机器人的动作数据、模型版本和下载包内容见
-[机器人配置与 checkpoint 说明](https://github.com/EGalahad/mimic-lite/blob/feat/multi-robot-support/docs/checkpoints.md)。
+[机器人配置与 checkpoint 说明](https://github.com/EGalahad/mimic-lite/blob/main/docs/checkpoints.md)。
 A3 发布版本使用 LAFAN / 100style / seed mixture，环境数为 8 × 4,096。
 G1 v1.1 和 RP1 使用 8 × 8,192 个环境；这些策略的 Train / Adapt / Finetune
 分别训练 4,000 / 1,000 / 2,000 updates；

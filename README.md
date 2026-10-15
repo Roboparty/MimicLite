@@ -13,7 +13,7 @@ MimicLite implementation and the public main training framework. Training, evalu
 
 | Component | Repository | Contents |
 | --- | --- | --- |
-| MimicLite | [`EGalahad/mimic-lite`](https://github.com/EGalahad/mimic-lite/tree/feat/multi-robot-support) | Training, evaluation, policy export, task configs, and learning code. |
+| MimicLite | [`EGalahad/mimic-lite`](https://github.com/EGalahad/mimic-lite/tree/main) | Training, evaluation, policy export, task configs, and learning code. |
 | Training framework | [`Agent-3154/active-adaptation`](https://github.com/Agent-3154/active-adaptation) | Simulation backends, distributed launchers, environments, and shared infrastructure. |
 | Motion data toolkit | [`EGalahad/any4hdmi`](https://github.com/EGalahad/any4hdmi) | Motion conversion, validation, visualization, and dataset tooling. |
 | Deployment runtime | [`EGalahad/sim2real`](https://github.com/EGalahad/sim2real) | ONNX inference, MuJoCo sim2sim, Pico teleoperation, and Unitree G1 deployment. |
@@ -31,7 +31,7 @@ MimicLite v1.1; the other rows are robot-matched student releases.
 | RP1, 28 DoF | [Google drive link](https://drive.google.com/open?id=10nzo4O9ZFJTLf0283RKns_Xmm4YxhjL1) |
 | RP1, 24 DoF | [Google drive link](https://drive.google.com/open?id=1QSMEzhPz_YJ29LB0LP6VC3V9lR73sDwP) |
 
-See [robot profiles and checkpoint details](https://github.com/EGalahad/mimic-lite/blob/feat/multi-robot-support/docs/checkpoints.md)
+See [robot profiles and checkpoint details](https://github.com/EGalahad/mimic-lite/blob/main/docs/checkpoints.md)
 for motion datasets, model revisions, and bundle contents. The A3 release uses a
 LAFAN / 100style / seed mixture with 8 × 4,096 environments. G1 v1.1 and RP1
 use 8 × 8,192 environments. These policies use 4,000 / 1,000 / 2,000
